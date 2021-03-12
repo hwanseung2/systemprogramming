@@ -1,0 +1,5 @@
+All samples shall be properly labeled in order to ensure that the results can be traced back to the location from which it was collected.
+In this paper, we propose a method for classification of histopathological images using texture features.
+The images are first segmented as epithelial lining surrounding the lumen for breast histopathology images using spatio-color- texture graph segmentation method.
+Automated detection of cancer metastases in lymph nodes has the potential to improve the assessment of prognosis for patients.
+The International Symposium on Biomedical Imaging (ISBI) held a grand challenge to evaluate computational systems for the automated detection of metastatic breast cancer in whole slide images of sentinel lymph node biopsies.
