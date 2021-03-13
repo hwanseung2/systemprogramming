@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 		perror("setvbuf(fpin)");
 		return 4;
 	}
-	if(setvbuf(fout, ubuf, _IOFBF, BUFFER_SIZE)!=0)
+	if(setvbuf(fpout, ubuf, _IOFBF, BUFFER_SIZE)!=0)
 	{
 		perror("setvbuf(fpout)");
 		return 5;
