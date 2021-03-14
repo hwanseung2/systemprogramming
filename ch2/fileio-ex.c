@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-	printf("hello world my name is hwanseung!\n");
+	//printf("hello world my name is hwanseung!\n");
 	int c;
 	FILE *fpin, *fpout;
 
