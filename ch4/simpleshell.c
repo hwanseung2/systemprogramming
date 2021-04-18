@@ -31,9 +31,9 @@ int main(int argc, char *argv[])
 			arg[argn++] = str;
 			str = strtok_r(NULL, tok, &save);
 		}
-
+		
 		arg[argn] = (char *)0;
-
+		printf("arg : \n%s\n%s\n%s", arg[0], arg[1], arg[2]);
 		if (strcmp(arg[0], "quit") ==0 ){
 			break;
 		}
