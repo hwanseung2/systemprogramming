@@ -13,9 +13,9 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t buffer_has_space = PTHREAD_COND_INITIALIZER;
 pthread_cond_t buffer_has_data = PTHREAD_COND_INITIALIZER;
 
-struct LinkedList *L = (struct LinkedList*)malloc(sizeof(struct LinkedList));
+//struct LinkedList *L = (struct LinkedList*)malloc(sizeof(struct LinkedList));
 //struct LinkedList *L;
-ListInit(L);
+//ListInit(L);
 
 void ListInit(struct LinkedList* plist){
 	plist->numOfItems = 0;
@@ -85,34 +85,32 @@ void freeAllNode(struct LinkedList* plist){
 int main(void)
 {
 	int i;
-	//struct LinkedList plist;
-	//ListInit(&plist);
-	//struct LinkedList *L = (struct LinkedList *)malloc(sizeof(struct LinkedList));
-	//ListInit(L);
 	pthread_t threads[2];
-	pthread_create(&threads[0], NULL, producer, NULL);
-	pthread_create(&threads[1], NULL, consumer, NULL);
+	struct LinkedList *plist = (struct LinkedList*)malloc(sizeof(struct LinkedList));
+	ListInit(plist);
+	pthread_create(&threads[0], NULL, producer, (void*)plist);
+	pthread_create(&threads[1], NULL, consumer, (void*)plist);
 	for(i=0;i<2;i++)
 		pthread_join(threads[i], NULL);
-	freeAllNode(L);
+	freeAllNode(plist);
 	return 0;
 }
 
-void *producer(void *v)
+void *producer(void *plist)
 {
 	int i;
 
 	//for (i=0; i<1000;i++)
-	while(1)
+	for(i =0; i<100;i++)
 	{
 
 		pthread_mutex_lock(&mutex);
-		if(isFull(L))
+		if(isFull((struct LinkedList*)plist))
 			pthread_cond_wait(&buffer_has_space, &mutex);
 		//in = (in + 1) % MAX_ITEM;
 		//buffer[in] = i;
 		int random_data = rand() % 100;
-		insertItem(L, random_data);
+		insertItem((struct LinkedList*)plist, random_data);
 		//count++;
 		pthread_cond_signal(&buffer_has_data);
 		pthread_mutex_unlock(&mutex);
@@ -120,19 +118,19 @@ void *producer(void *v)
 	}
 }
 
-void *consumer(void *v)
+void *consumer(void *plist)
 {
 	int i, data;
 
 	//for (i=0;i<1000;i++){
-	while(1){
+	for(i = 0; i<100;i++){
 		pthread_mutex_lock(&mutex);
-		if(isEmpty(L))
+		if(isEmpty((struct LinkedList*)plist))
 			pthread_cond_wait(&buffer_has_data, &mutex);
 		//out = (out+1) % MAX_ITEM;
 		//data = buffer[out];
 		//count--;
-		data = getItem(L);
+		data = getItem((struct LinkedList*)plist);
 		pthread_cond_signal(&buffer_has_space);
 		pthread_mutex_unlock(&mutex);
 		printf("data = %d\n", data);
